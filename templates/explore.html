@@ -1,0 +1,74 @@
+<!-- your_app/templates/explore.html -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Explore - pyCasts!{% endblock %}
+
+{% block content %}
+  <h1 class="mt-4 mb-4">Explore</h1>
+
+  {% for episode in episodes %}
+    <section class="card mb-3 position-relative">
+      <div class="row no-gutters">
+        <!-- Segment 1: Photo -->
+        <div class="col-md-2">
+          <img
+            src="{{ episode.image }}"
+            class="img-fluid ml-3 my-3"
+            alt="{{ episode.podcast_name }}"
+          />
+        </div>
+        <!-- Segment 2: Text -->
+        <div class="col-md-9">
+          <div class="card-body ml-3">
+            <h3 class="card-title">{{ episode.title }}</h3>
+            <p class="card-text">{{ episode.description }}</p>
+            <p class="card-text">
+              <input type="text" value="{{ episode.id }}" disabled hidden>
+            </p>
+            <a href="{{ episode.link }}">
+              <p class="card-text">🎧 Listen to this episode</p>
+            </a>
+          </div>
+        </div>
+        <!-- Segment 3: Heart Icon -->
+        <div class="col-md-1 d-flex align-items-end justify-content-end pe-3">
+          <div class="heart-icon" onclick="toggleFavorite(this)">
+            <i class="far fa-heart"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+
+  <script>
+    function toggleFavorite(element) {
+      element.classList.toggle('favorited');
+      const heartIcon = element.querySelector('i.fa-heart');
+      heartIcon.classList.toggle('far');
+      heartIcon.classList.toggle('fas');
+
+      console.log("Comes Here!!!")
+      console.log(element)
+
+      // Find the closest input field (episode ID) in the DOM hierarchy
+      const episodeIdField = element.closest('.card-body').querySelector('input[type="text"]');
+
+      // Extract the episode ID from the disabled input field
+      const episodeId = episodeIdField.value;
+
+      // Send AJAX request to update the Episode model's user field
+      fetch(`/update_favorite/${episodeId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({}),
+      });
+    }
+  </script>
+{% endblock %}

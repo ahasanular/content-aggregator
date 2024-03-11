@@ -3,8 +3,8 @@ from django.views.generic import ListView
 from .models import Episode
 
 
-class HomePageView(ListView):
-    template_name = "homepage.html"
+class ExploreView(ListView):
+    template_name = "explore.html"
     model = Episode
 
     def get_context_data(self, **kwargs):

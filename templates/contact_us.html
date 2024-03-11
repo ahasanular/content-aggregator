@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Your Website Title{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Contact Us</h1>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p class="lead">Have a question or feedback? Reach out to us by filling out the form below:</p>
+
+        <form method="post" action="{% url 'contact_us' %}" class="needs-validation" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Your Name</label>
+            {{ form.name }}
+            <div class="invalid-feedback">
+              Please enter your name.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Your Email</label>
+            {{ form.email }}
+            <div class="invalid-feedback">
+              Please enter a valid email address.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="{{ form.message.id_for_label }}"
+                   class="form-label">Your Message</label><br>
+            {{ form.message }}
+            <div class="invalid-feedback">
+              Please enter your message.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <!-- You can add additional content, such as contact information, on the right side -->
+        <p class="lead">Contact Information:</p>
+        <address>
+          <strong>Ahasanul Arafath</strong><br>
+          <abbr title="Phone">P:</abbr> 01790819417<br>
+          <abbr title="Email">E:</abbr> ahasanular@gmail.com
+        </address>
+      </div>
+    </div>
+  </div>
+{% endblock %}

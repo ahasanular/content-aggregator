@@ -73,7 +73,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_realpython_episodes,
             trigger="interval",
-            minutes=2,
+            minutes=1,
             id="The Real Python Podcast",  # Each job MUST have a unique ID
             max_instances=1,
             # Replaces existing and stops duplicates on restart of the app.
@@ -84,7 +84,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             fetch_talkpython_episodes,
             trigger="interval",
-            minutes=2,
+            minutes=1,
             id="Talk Python Feed",
             max_instances=1,
             replace_existing=True,
