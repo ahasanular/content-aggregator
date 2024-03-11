@@ -1,9 +1,19 @@
 from django.urls import path
 
-from .views import FavoritesView, UpdateFavoriteView
+from .views import favorites_template, FavoriteAPIView, AddToFavoritesView
 
 
 urlpatterns = [
-    path("", FavoritesView.as_view(), name="favorites"),
-    path('update_favorite/<int:episode_id>/', UpdateFavoriteView.as_view(), name='update_favorite'),
+    path("", favorites_template, name="favorites"),
+    path(
+        'add_to_favorites/<pk>/',
+        AddToFavoritesView.as_view(),
+        name='add_to_favorites'
+    ),
+    path(
+        'api/favorites/',
+        FavoriteAPIView.as_view(),
+        name='favorite_list_api'
+
+    )
 ]

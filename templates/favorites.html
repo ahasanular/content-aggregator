@@ -7,7 +7,7 @@
 {% block title %}Explore - pyCasts!{% endblock %}
 
 {% block content %}
-  <h1 class="mt-4 mb-4">Explore</h1>
+  <h1 class="mt-4 mb-4">My Favorite</h1>
 
   <div id="episodesContainer">
 
@@ -40,11 +40,6 @@
                     </a>
                   </div>
                 </div>
-                <div class="col-md-1 d-flex align-items-end justify-content-end pe-3">
-                  <div class="heart-icon" onclick="toggleFavorite(this, ${episode.id})">
-                    <i class="fa${isFavorite ? 's' : 'r'} fa-heart" style="color: ${heartColor};"></i>
-                  </div>
-                </div>
               </div>
             </section>
           `;
@@ -63,7 +58,7 @@
 
       // Make AJAX call to the DRF API endpoint
       $.ajax({
-        url: '/api/explore/',
+        url: '/favorites/api/favorites/',
         type: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`

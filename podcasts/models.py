@@ -14,13 +14,14 @@ class Episode(MetaFields):
     image = models.URLField()
     podcast_name = models.CharField(max_length=100)
     guid = models.CharField(max_length=50)
-    user = models.ForeignKey(
+    user = models.ManyToManyField(
         User,
-        on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        default=None
+        default=None,
+        related_name='user_episodes'
     )
+    # objects = EpisodeManager()
 
     def __str__(self) -> str:
-        return f"{self.podcast_name}: {self.title}"
+        return f"{self.id} - {self.podcast_name}: {self.title}"

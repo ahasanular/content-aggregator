@@ -21,4 +21,5 @@ urlpatterns = [
     path("", include("podcasts.urls")),
     path("favorites/", include("favorites.urls")),
     path("others/", include("others.urls")),
+    path("authentication/", include("authentication.urls")),
 ]

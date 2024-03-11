@@ -1,0 +1,113 @@
+<!-- your_app/templates/registration/register.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Register</h2>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm" method="post">
+                        {% csrf_token %}
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="id_username">Username:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="username" required id="id_username">
+                            </div>
+                        </div>
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="id_email">Email:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="email" name="email" id="id_email">
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="id_password">Password:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="password" name="password" required id="id_password">
+                                    <button type="button"
+                                            class="btn btn-outline-secondary btn-sm" id="showPasswordBtn">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-danger" id="errorMessage">
+
+                            </div>
+                        </div>
+                        <div class="row m-3">
+                            <button type="submit"
+                                    class="btn btn-success btn-block mt-3"
+                                    id="registerButton">Register
+                            </button>
+                        </div>
+                    </form>
+                    <div class="row m-3">
+                            <a href="/authentication/login/" type="button"
+                                    class="btn btn-primary btn-block mt-3"
+                                    id="loginButton">Login</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#showPasswordBtn').on('click', function() {
+           var passwordInput = $('#id_password');
+           var passwordType = passwordInput.attr('type');
+           passwordInput.attr('type', passwordType === 'password' ? 'text' : 'password');
+       });
+
+    $('#registerForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = $(this).serialize();
+        $.ajax({
+            url: '/authentication/api/register/',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                console.log("API SUCCESS")
+                console.log(response)
+                // Save refresh token to local storage
+                localStorage.setItem('refresh_token', response.refresh);
+                localStorage.setItem('access_token', response.access);
+                document.cookie = `refresh_token=${response.refresh}; path=/`;
+                document.cookie = `access_token=${response.access}; path=/`;
+                // Redirect to explore page
+                window.location.href = '/';
+            },
+            error: function(xhr, status, error) {
+                // Handle login error
+                console.error("API ERROR");
+                console.error(xhr.responseText);
+                var errorMessage = JSON.parse(xhr.responseText).error;
+                var error_dom = document.querySelectorAll('#errorMessage')[0]
+                error_dom.innerText = errorMessage
+
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

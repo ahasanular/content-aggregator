@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import ExploreView
+from .views import ExploreAPIView, explore_page
 
 
 urlpatterns = [
-    path("", ExploreView.as_view(), name="explore"),
+    path("", explore_page, name="explore"),
+    path("api/explore/", ExploreAPIView.as_view(), name="explore_api"),
 ]

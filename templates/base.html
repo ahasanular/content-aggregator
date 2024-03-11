@@ -48,6 +48,15 @@
                     <a class="nav-link" href="{% url 'contact_us' %}">Contact
                         Us</a>
                 </li>
+                <li id="loginNav" class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li id="registerNav" class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li id="logoutNav" class="nav-item">
+                    <a class="nav-link" href="{% url 'explore' %}">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -59,6 +68,42 @@
 
 <!-- Add Bootstrap JS from CDN (required for some features) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JavaScript to toggle navigation items based on authentication -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loginNav = document.getElementById("loginNav");
+        var registerNav = document.getElementById("registerNav");
+        var logoutNav = document.getElementById("logoutNav");
+
+        // Check if access token is present in local storage
+        var accessToken = localStorage.getItem("access_token");
+
+        if (accessToken) {
+            // User is authenticated, hide Login and Register, show Logout
+            loginNav.style.display = "none";
+            registerNav.style.display = "none";
+            logoutNav.style.display = "block";
+        } else {
+            // User is not authenticated, show Login and Register, hide Logout
+            loginNav.style.display = "block";
+            registerNav.style.display = "block";
+            logoutNav.style.display = "none";
+        }
+
+        if (logoutNav) {
+            logoutNav.addEventListener("click", function () {
+                // Clear access and refresh tokens from local storage
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                // Redirect to the logout view
+                window.location.href = '/';
+            });
+        }
+    });
+</script>
 
 </body>
 </html>
