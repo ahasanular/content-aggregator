@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Check if the install-dependencies.sh script exists and is executable
+if [ -f "./install-dependencies.sh" ] && [ -x "./install-dependencies.sh" ]; then
+  echo "Running migrations..."
+  ./install-dependencies.sh
+else
+  echo "Error: install-dependencies.sh not found or not executable."
+  exit 1
+fi
+
 # Check if the migrate.sh script exists and is executable
 if [ -f "./migrate.sh" ] && [ -x "./migrate.sh" ]; then
   echo "Running migrations..."
