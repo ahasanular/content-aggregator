@@ -10,3 +10,4 @@ six==1.16.0
 sqlparse==0.4.4
 typing_extensions==4.10.0
 tzlocal==5.2
+djangorestframework==3.15.2
